@@ -22,7 +22,6 @@ Desktop.ini
 # PyInstaller
 build/
 dist/
-*.spec
 
 # Whisper model cache
 .cache/
