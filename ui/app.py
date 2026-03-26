@@ -58,21 +58,10 @@ class App(ctk.CTk):
         file_frame.grid(row=0, column=0, padx=20, pady=(20, 8), sticky="ew")
         file_frame.grid_columnconfigure(0, weight=1)
 
-        header_row = ctk.CTkFrame(file_frame, fg_color="transparent")
-        header_row.grid(row=0, column=0, columnspan=2, padx=15, pady=(12, 4), sticky="ew")
-        header_row.grid_columnconfigure(0, weight=1)
-
         ctk.CTkLabel(
-            header_row, text="Arquivo de Vídeo",
+            file_frame, text="Arquivo de Vídeo",
             font=ctk.CTkFont(size=13, weight="bold"),
-        ).grid(row=0, column=0, sticky="w")
-
-        ctk.CTkButton(
-            header_row, text="Sobre", width=60, height=24,
-            fg_color="transparent", border_width=1,
-            font=ctk.CTkFont(size=11),
-            command=self._show_about,
-        ).grid(row=0, column=1, sticky="e")
+        ).grid(row=0, column=0, columnspan=2, padx=15, pady=(12, 4), sticky="w")
 
         self.file_entry = ctk.CTkEntry(
             file_frame, placeholder_text="Selecione um arquivo de vídeo...",
@@ -175,6 +164,23 @@ class App(ctk.CTk):
             state="disabled", command=self._save_srt,
         )
         self.save_srt_btn.grid(row=1, column=2, padx=(0, 15), pady=(0, 12))
+
+        # --- Footer ---
+        footer_frame = ctk.CTkFrame(self, fg_color="transparent")
+        footer_frame.grid(row=5, column=0, padx=20, pady=(0, 12), sticky="ew")
+        footer_frame.grid_columnconfigure(0, weight=1)
+
+        ctk.CTkLabel(
+            footer_frame, text="\u00a9 2026 CNLabs",
+            font=ctk.CTkFont(size=11), text_color="gray",
+        ).grid(row=0, column=0, sticky="w")
+
+        ctk.CTkButton(
+            footer_frame, text="Sobre", width=60, height=24,
+            fg_color="transparent", border_width=1,
+            font=ctk.CTkFont(size=11),
+            command=self._show_about,
+        ).grid(row=0, column=1, sticky="e")
 
     # ------------------------------------------------------------ Helpers --
 
