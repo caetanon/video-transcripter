@@ -1,0 +1,21 @@
+# Video Transcriber - Dependencies
+#
+# 1. Install PyTorch first (choose ONE based on your system):
+#
+#    Mac (Apple Silicon - MPS):
+#      pip install torch torchvision torchaudio
+#
+#    Windows/Linux with NVIDIA GPU (CUDA 11.8):
+#      pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+#
+#    Windows/Linux with NVIDIA GPU (CUDA 12.1):
+#      pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+#
+#    CPU only:
+#      pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+#
+# 2. Then install the rest:
+#      pip install -r requirements.txt
+
+openai-whisper
+customtkinter

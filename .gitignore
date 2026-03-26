@@ -1,0 +1,34 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Whisper model cache
+.cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
