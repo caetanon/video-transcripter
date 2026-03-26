@@ -58,10 +58,21 @@ class App(ctk.CTk):
         file_frame.grid(row=0, column=0, padx=20, pady=(20, 8), sticky="ew")
         file_frame.grid_columnconfigure(0, weight=1)
 
+        header_row = ctk.CTkFrame(file_frame, fg_color="transparent")
+        header_row.grid(row=0, column=0, columnspan=2, padx=15, pady=(12, 4), sticky="ew")
+        header_row.grid_columnconfigure(0, weight=1)
+
         ctk.CTkLabel(
-            file_frame, text="Arquivo de Vídeo",
+            header_row, text="Arquivo de Vídeo",
             font=ctk.CTkFont(size=13, weight="bold"),
-        ).grid(row=0, column=0, columnspan=2, padx=15, pady=(12, 4), sticky="w")
+        ).grid(row=0, column=0, sticky="w")
+
+        ctk.CTkButton(
+            header_row, text="Sobre", width=60, height=24,
+            fg_color="transparent", border_width=1,
+            font=ctk.CTkFont(size=11),
+            command=self._show_about,
+        ).grid(row=0, column=1, sticky="e")
 
         self.file_entry = ctk.CTkEntry(
             file_frame, placeholder_text="Selecione um arquivo de vídeo...",
@@ -265,6 +276,11 @@ class App(ctk.CTk):
         self._set_status(f"Erro: {error}")
         messagebox.showerror("Erro na transcrição", error)
 
+    # ------------------------------------------------------------- About --
+
+    def _show_about(self):
+        AboutDialog(self)
+
     # ------------------------------------------------------------ Export --
 
     def _save_txt(self):
@@ -290,3 +306,92 @@ class App(ctk.CTk):
         if path:
             export_srt(self._result, path)
             messagebox.showinfo("Salvo", f"Legendas salvas em:\n{path}")
+
+
+class AboutDialog(ctk.CTkToplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.title("Sobre")
+        self.geometry("420x480")
+        self.resizable(False, False)
+        self.grab_set()  # modal
+        self.lift()
+        self.focus_force()
+
+        self.grid_columnconfigure(0, weight=1)
+
+        # --- Nome e versão ---
+        ctk.CTkLabel(
+            self, text="Video Transcriber",
+            font=ctk.CTkFont(size=20, weight="bold"),
+        ).grid(row=0, column=0, pady=(30, 4))
+
+        ctk.CTkLabel(
+            self, text="Versão 1.0.0",
+            font=ctk.CTkFont(size=12), text_color="gray",
+        ).grid(row=1, column=0, pady=(0, 4))
+
+        ctk.CTkLabel(
+            self, text="Transcrição de vídeos com IA — roda 100% local.",
+            font=ctk.CTkFont(size=12), text_color="gray",
+        ).grid(row=2, column=0, pady=(0, 20))
+
+        # --- Divisor ---
+        ctk.CTkFrame(self, height=1, fg_color="#3a3a3a").grid(
+            row=3, column=0, sticky="ew", padx=30, pady=(0, 16)
+        )
+
+        # --- Créditos open source ---
+        ctk.CTkLabel(
+            self, text="Bibliotecas open source",
+            font=ctk.CTkFont(size=12, weight="bold"),
+        ).grid(row=4, column=0, pady=(0, 10))
+
+        credits = [
+            ("OpenAI Whisper", "Transcrição de áudio — MIT License"),
+            ("PyTorch", "Engine de deep learning — BSD 3-Clause"),
+            ("CustomTkinter", "Interface gráfica — MIT License"),
+            ("FFmpeg", "Decodificação de vídeo — LGPL 2.1+"),
+            ("NumPy", "Computação numérica — BSD 3-Clause"),
+            ("tiktoken", "Tokenização — MIT License"),
+        ]
+
+        credits_frame = ctk.CTkFrame(self, fg_color="#1e1e1e", corner_radius=8)
+        credits_frame.grid(row=5, column=0, padx=30, pady=(0, 20), sticky="ew")
+        credits_frame.grid_columnconfigure(0, weight=1)
+
+        for i, (lib, desc) in enumerate(credits):
+            row_frame = ctk.CTkFrame(credits_frame, fg_color="transparent")
+            row_frame.grid(row=i, column=0, sticky="ew", padx=14, pady=5)
+            row_frame.grid_columnconfigure(1, weight=1)
+
+            ctk.CTkLabel(
+                row_frame, text=lib,
+                font=ctk.CTkFont(size=12, weight="bold"), width=160, anchor="w",
+            ).grid(row=0, column=0, sticky="w")
+
+            ctk.CTkLabel(
+                row_frame, text=desc,
+                font=ctk.CTkFont(size=11), text_color="gray", anchor="w",
+            ).grid(row=0, column=1, sticky="w")
+
+        # --- Divisor ---
+        ctk.CTkFrame(self, height=1, fg_color="#3a3a3a").grid(
+            row=6, column=0, sticky="ew", padx=30, pady=(0, 14)
+        )
+
+        # --- Rodapé ---
+        ctk.CTkLabel(
+            self, text="Desenvolvido por CNLabs",
+            font=ctk.CTkFont(size=11), text_color="gray",
+        ).grid(row=7, column=0, pady=(0, 4))
+
+        ctk.CTkLabel(
+            self, text="github.com/caetanon/video-transcripter",
+            font=ctk.CTkFont(size=11), text_color="#4a9eff",
+        ).grid(row=8, column=0, pady=(0, 20))
+
+        ctk.CTkButton(
+            self, text="Fechar", width=100, command=self.destroy,
+        ).grid(row=9, column=0, pady=(0, 24))
