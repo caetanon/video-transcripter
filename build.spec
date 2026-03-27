@@ -8,23 +8,25 @@ block_cipher = None
 ctk_datas, ctk_binaries, ctk_hiddenimports = collect_all('customtkinter')
 whisper_datas, whisper_binaries, whisper_hiddenimports = collect_all('whisper')
 torch_datas, torch_binaries, torch_hiddenimports = collect_all('torch')
+certifi_datas, certifi_binaries, certifi_hiddenimports = collect_all('certifi')
 
 a = Analysis(
     ['main.py'],
     pathex=['.'],
-    binaries=ctk_binaries + whisper_binaries + torch_binaries,
-    datas=ctk_datas + whisper_datas + torch_datas + [('ui', 'ui')],
-    hiddenimports=ctk_hiddenimports + whisper_hiddenimports + torch_hiddenimports + [
+    binaries=ctk_binaries + whisper_binaries + torch_binaries + certifi_binaries,
+    datas=ctk_datas + whisper_datas + torch_datas + certifi_datas + [('ui', 'ui')],
+    hiddenimports=ctk_hiddenimports + whisper_hiddenimports + torch_hiddenimports + certifi_hiddenimports + [
         'tiktoken',
         'tiktoken_ext',
         'tiktoken_ext.openai_public',
         'torch',
         'torch.cuda',
         'numpy',
+        'certifi',
     ],
     hookspath=[],
     hooksconfig={},
-    runtime_hooks=[],
+    runtime_hooks=['runtime_hook_ssl.py'],
     excludes=[],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
